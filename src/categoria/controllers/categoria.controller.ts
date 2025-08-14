@@ -14,11 +14,12 @@ import {
 } from '@nestjs/common';
 import { CategoriaService } from '../services/categoria.services';
 import { Categoria } from '../entities/categoria.entity';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
 @Controller('/categorias')
 @ApiTags('Categoria')
 @ApiBearerAuth()
-@UseGuards()
+@UseGuards(JwtAuthGuard)
 export class CategoriaController {
   constructor(private readonly categoriaService: CategoriaService) {}
 

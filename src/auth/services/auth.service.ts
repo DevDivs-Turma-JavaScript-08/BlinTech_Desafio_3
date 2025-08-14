@@ -39,7 +39,7 @@ export class AuthService {
     );
 
     if (!buscaEmail)
-      throw new HttpException("Usuário não encontrado!", HttpStatus.NOT_FOUND);
+      throw new HttpException("E-mail não encontrado!", HttpStatus.NOT_FOUND);
 
     return {
       id: buscaEmail.id,
