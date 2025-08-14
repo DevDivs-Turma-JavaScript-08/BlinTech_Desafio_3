@@ -27,7 +27,7 @@ export class CategoriaService {
     return categoria;
   }
 
-  async findbyCategoria(nome: string): Promise<Categoria[]> {
+  async findByCategoria(nome: string): Promise<Categoria[]> {
     return await this.categoriaRepository.find({
       where: {
         nome: ILike(`%$${nome}`),

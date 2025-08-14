@@ -11,7 +11,7 @@ export class Categoria {
   nome: string;
 
   @IsNotEmpty()
-  @Column({ length: 255, nullable: false })
+  @Column({ type: 'text', nullable: false })
   descricao: string;
 
   @IsNotEmpty()
