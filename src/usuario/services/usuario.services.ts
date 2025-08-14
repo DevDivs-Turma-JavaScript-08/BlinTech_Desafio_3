@@ -11,13 +11,13 @@ export class UsuarioService {
     // private bcrypt: Bcrypt,
   ) {}
 
-  async findByUsuario(user: string): Promise<Usuario | null> {
+  async findByEmail(user: string): Promise<Usuario | null> {
     return await this.userRepo.findOne({
       where: {
         email: user,
       },
       // relations: {
-      //   postagem: true,
+      //   produtos: true,
       // }
     });
   }
@@ -25,7 +25,7 @@ export class UsuarioService {
   async findAll(): Promise<Usuario[]> {
     const userList = await this.userRepo.find({
       // relations: {
-      //   // produtos: true,
+      //  produtos: true,
       // },
     });
     if (userList.length === 0) {
@@ -52,7 +52,7 @@ export class UsuarioService {
   }
 
   async create(user: Usuario): Promise<Usuario> {
-    const buscaUser = await this.findByUsuario(user.email);
+    const buscaUser = await this.findByEmail(user.email);
 
     if (buscaUser)
       throw new HttpException(
@@ -73,7 +73,7 @@ export class UsuarioService {
         HttpStatus.NOT_FOUND,
       );
 
-    const buscaUser = await this.findByUsuario(user.email);
+    const buscaUser = await this.findByEmail(user.email);
 
     if (buscaUser && buscaUser.id !== user.id)
       throw new HttpException(

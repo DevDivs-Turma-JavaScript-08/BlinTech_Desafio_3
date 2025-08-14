@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsuarioModule } from './usuario/usuario.module';
+import { DevService } from './data/services/dev.service';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { UsuarioModule } from './usuario/usuario.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       // useClass: ProdService,
-      // useClass: DevService,
+      useClass: DevService,
     }),
     // AuthModule,
     UsuarioModule,

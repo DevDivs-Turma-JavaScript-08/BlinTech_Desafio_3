@@ -29,7 +29,7 @@ export class Usuario {
   cpf: string;
 
   @IsNotEmpty()
-  @Column({ length: 255, nullable: false })
+  @Column({ type: 'enum', enum: ["segurador", "segurado"] ,nullable: false })
   tipoDeUsuario: string;
 
   @Column({ length: 5000 })
