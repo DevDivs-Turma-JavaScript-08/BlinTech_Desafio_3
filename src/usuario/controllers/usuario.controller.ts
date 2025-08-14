@@ -1,3 +1,4 @@
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -12,21 +13,22 @@ import {
 } from '@nestjs/common';
 import { UsuarioService } from '../services/usuario.services';
 import { Usuario } from '../entities/usuario.entity';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
-// @ApiTags("Usuario")
+@ApiTags("Usuario")
 @Controller('/usuarios')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 export class UsuarioController {
   constructor(private readonly userService: UsuarioService) {}
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('/all')
   @HttpCode(HttpStatus.OK)
   findAll(): Promise<Usuario[]> {
     return this.userService.findAll();
   }
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   @HttpCode(HttpStatus.OK)
   findById(@Param('id', ParseIntPipe) id: number): Promise<Usuario> {
@@ -39,7 +41,7 @@ export class UsuarioController {
     return this.userService.create(user);
   }
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Put('/atualizacao')
   @HttpCode(HttpStatus.OK)
   async update(@Body() usuario: Usuario): Promise<Usuario> {

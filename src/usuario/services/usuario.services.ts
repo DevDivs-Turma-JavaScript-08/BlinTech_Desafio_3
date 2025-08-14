@@ -2,13 +2,14 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from '../entities/usuario.entity';
+import { Bcrypt } from '../../auth/bcrypt/bcrypt';
 
 @Injectable()
 export class UsuarioService {
   constructor(
     @InjectRepository(Usuario)
     private userRepo: Repository<Usuario>,
-    // private bcrypt: Bcrypt,
+    private bcrypt: Bcrypt,
   ) {}
 
   async findByEmail(user: string): Promise<Usuario | null> {
@@ -16,17 +17,17 @@ export class UsuarioService {
       where: {
         email: user,
       },
-      // relations: {
-      //   produtos: true,
-      // }
+      relations: {
+         produtos: true,
+       }
     });
   }
 
   async findAll(): Promise<Usuario[]> {
     const userList = await this.userRepo.find({
-      // relations: {
-      //  produtos: true,
-      // },
+       relations: {
+        produtos: true,
+       },
     });
     if (userList.length === 0) {
       throw new HttpException(
@@ -60,7 +61,7 @@ export class UsuarioService {
         HttpStatus.BAD_REQUEST,
       );
 
-    // user.senha = await this.bcrypt.criptografarSenha(user.senha);
+    user.senha = await this.bcrypt.criptografarSenha(user.senha);
     return await this.userRepo.save(user);
   }
 
@@ -81,7 +82,7 @@ export class UsuarioService {
         HttpStatus.BAD_REQUEST,
       );
 
-      // user.senha = await this.bcrypt.criptografarSenha(user.senha);
+      user.senha = await this.bcrypt.criptografarSenha(user.senha);
       return await this.userRepo.save(user);
   }
 }

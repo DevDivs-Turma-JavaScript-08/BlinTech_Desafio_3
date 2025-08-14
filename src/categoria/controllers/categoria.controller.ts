@@ -1,3 +1,5 @@
+import { UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -14,6 +16,9 @@ import { CategoriaService } from '../services/categoria.services';
 import { Categoria } from '../entities/categoria.entity';
 
 @Controller('/categorias')
+@ApiTags('Categoria')
+@ApiBearerAuth()
+@UseGuards()
 export class CategoriaController {
   constructor(private readonly categoriaService: CategoriaService) {}
 

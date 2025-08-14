@@ -1,3 +1,4 @@
+import { CategoriaService } from './../../categoria/services/categoria.services';
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DeleteResult, Like, Repository } from "typeorm";
@@ -12,11 +13,17 @@ export class ProdutoService {
     constructor(
         @InjectRepository(Produto)
         private produtoRepository: Repository<Produto>, 
+        private categoriaService: CategoriaService,
 
     ) { }
 
     async findAll(): Promise<Produto[]> {
-        return await this.produtoRepository.find();
+        return await this.produtoRepository.find({
+            relations: {
+                categoria: true,
+                usuario: true,
+            }
+        });
     }
 
     async findById(id: number): Promise<Produto> {
@@ -24,6 +31,10 @@ export class ProdutoService {
         const produto = await this.produtoRepository.findOne({
             where: {
                 id
+            },
+             relations: {
+                categoria: true,
+                usuario: true,
             }
         })
 
@@ -36,6 +47,10 @@ export class ProdutoService {
         return await this.produtoRepository.find({
             where: {
                 nomeProduto: Like(`%${nomeProduto}%`)
+            },
+             relations: {
+                categoria: true,
+                usuario: true,
             }
         })
     }
@@ -64,6 +79,7 @@ export class ProdutoService {
     async update(produto: Produto): Promise<Produto> {
 
         const postagem_id = await this.findById(produto.id);
+        await this.categoriaService.findById(produto.categoria.id);
         if (!postagem_id) {
             throw new HttpException("produto não encontrada", HttpStatus.NOT_FOUND);
         }

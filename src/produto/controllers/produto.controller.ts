@@ -1,9 +1,13 @@
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { ProdutoService } from "../services/produto.services";
 import { Produto } from "../entities/produto.entity";
 
 
 @Controller("/produto")
+@ApiTags('Produto')
+@ApiBearerAuth()
+@UseGuards()
 export class ProdutoController {
     constructor(private readonly produtoService: ProdutoService) { }
 
