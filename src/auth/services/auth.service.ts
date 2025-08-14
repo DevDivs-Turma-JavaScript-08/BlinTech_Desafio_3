@@ -2,6 +2,7 @@ import { JwtService } from "@nestjs/jwt";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { UsuarioService } from "../../usuario/services/usuario.services";
 import { Bcrypt } from "../bcrypt/bcrypt";
+import { EmailLogin } from "../entities/emaillogin.entity";
 
 @Injectable()
 export class AuthService {
@@ -34,7 +35,7 @@ export class AuthService {
     const payload = { sub: emailLogin.email};
 
     const buscaEmail = await this.userService.findByEmail(
-      emailLogin.usuario, 
+      emailLogin.email, 
     );
 
     if (!buscaEmail)
