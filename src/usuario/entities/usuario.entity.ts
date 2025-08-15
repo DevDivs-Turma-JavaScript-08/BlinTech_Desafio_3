@@ -34,12 +34,12 @@ export class Usuario {
   cpf: string;
 
   @ApiProperty()
-  @Column({
-    type: 'enum',
-    enum: ['Segurador', 'Segurado'],
-    default: 'Segurado',
-  })
-  // @Column({ length: 255, nullable: true })
+  // @Column({
+  //   type: 'enum',
+  //   enum: ['Segurador', 'Segurado'],
+  //   default: 'Segurado',
+  // })
+  @Column({ length: 255, nullable: true, default: 'Segurado' })
   tipoDeUsuario: string;
 
   @Column({ length: 5000 })

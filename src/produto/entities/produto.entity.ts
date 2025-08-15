@@ -28,9 +28,10 @@ export class Produto {
 
   @IsNotEmpty()
   @Column({
-    type: 'enum',
-    enum: ['Básico', 'Intermediário', 'Premium', 'Premium Plus'],
-    default: 'Básico'
+    length: 20,
+    // type: 'enum',
+    // enum: ['Básico', 'Intermediário', 'Premium', 'Premium Plus'],
+    default: 'Básico',
   })
   @ApiProperty()
   cobertura: string;
