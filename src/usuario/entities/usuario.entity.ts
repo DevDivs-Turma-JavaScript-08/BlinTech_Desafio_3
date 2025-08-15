@@ -5,8 +5,8 @@ import { Produto } from '../../produto/entities/produto.entity';
 
 @Entity({ name: 'tb_usuarios' })
 export class Usuario {
+  @ApiProperty({ readOnly: true })
   @PrimaryGeneratedColumn()
-  @ApiProperty()
   id: number;
 
   @IsNotEmpty()
@@ -23,30 +23,31 @@ export class Usuario {
   @MinLength(6)
   @IsNotEmpty()
   @Column({ length: 255, nullable: false })
-  @ApiProperty({ example: 'Minimo de 6 caracteres'})
+  @ApiProperty({ example: 'Minimo de 6 caracteres' })
   senha: string;
 
   @IsNotEmpty()
   @MinLength(11)
   @MaxLength(11)
-  @ApiProperty({ example: "12345678910"})
+  @ApiProperty({ example: '12345678910' })
   @Column({ length: 11, nullable: false, unique: true })
   cpf: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'Segurado' })
   // @Column({
   //   type: 'enum',
   //   enum: ['Segurador', 'Segurado'],
   //   default: 'Segurado',
   // })
+  @IsNotEmpty()
   @Column({ length: 255, nullable: true, default: 'Segurado' })
   tipoDeUsuario: string;
 
   @Column({ length: 5000 })
-  @ApiProperty()
+  @ApiProperty({ example: 'www.foto.com.br' })
   foto: string;
 
-  @ApiProperty()
+  @ApiProperty({ readOnly: true })
   @OneToMany(() => Produto, (produtos) => produtos.usuario)
   produtos: Produto[];
 }

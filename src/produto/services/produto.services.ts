@@ -38,7 +38,7 @@ export class ProdutoService {
             }
         })
 
-        if (!produto) throw new HttpException('produto nao encontrada', HttpStatus.NOT_FOUND)
+        if (!produto) throw new HttpException('Produto não encontrado', HttpStatus.NOT_FOUND)
         
         return produto;
     }
@@ -56,11 +56,13 @@ export class ProdutoService {
     }
 
     async createValorFinal(produto: Produto): Promise<Produto> {
-        let porcentagemBase = 0.15
+        let porcentagemBase = 1.15
 
-        if(produto.cobertura == "premium")porcentagemBase = 0.3
-        
-        if(produto.cobertura == "intermediario")porcentagemBase = 0.2
+        if(produto.cobertura == "premium") {
+          porcentagemBase = 1.3
+        } else if(produto.cobertura == "intermediario") {
+          porcentagemBase = 1.2
+        }
 
         produto.valorSeguro = produto.valorProduto*porcentagemBase
 
@@ -73,6 +75,8 @@ export class ProdutoService {
 
         this.createValorFinal(produto)
 
+        produto.premioMensal = produto.valorSeguro * 0.005
+
         return await this.produtoRepository.save(produto)
     }
 
@@ -81,8 +85,12 @@ export class ProdutoService {
         const postagem_id = await this.findById(produto.id);
         await this.categoriaService.findById(produto.categoria.id);
         if (!postagem_id) {
-            throw new HttpException("produto não encontrada", HttpStatus.NOT_FOUND);
+            throw new HttpException("Produto não encontrado", HttpStatus.NOT_FOUND);
         }
+
+        this.createValorFinal(produto);
+
+        produto.premioMensal = produto.valorSeguro * 0.005;
         
         return await this.produtoRepository.save(produto);
     }

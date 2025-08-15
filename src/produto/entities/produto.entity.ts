@@ -2,10 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Categoria } from '../../categoria/entities/categoria.entity';
 import { Usuario } from '../../usuario/entities/usuario.entity';
@@ -13,7 +15,6 @@ import { Usuario } from '../../usuario/entities/usuario.entity';
 @Entity({ name: 'tb_produto' })
 export class Produto {
   @PrimaryGeneratedColumn()
-  @ApiProperty()
   id: number;
 
   @IsNotEmpty()
@@ -43,19 +44,21 @@ export class Produto {
   @ApiProperty({ example: 'WW-XXXXXX-YYYYYY-Z' })
   imei: string;
 
+  @IsNotEmpty()
   @ApiProperty()
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   valorProduto: number;
 
-  @ApiProperty()
+  @ApiProperty({ readOnly: true })
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   valorSeguro: number;
 
-  @ApiProperty()
+  @ApiProperty({ readOnly: true })
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   premioMensal: number;
 
   @ApiProperty()
+  @IsNotEmpty()
   @Column()
   tempoUso: number;
 
@@ -65,6 +68,10 @@ export class Produto {
   })
   @JoinColumn({ name: 'categoria_id' })
   categoria: Categoria;
+
+  @ApiProperty({ readOnly: true })
+  @CreateDateColumn()
+  dataDeCadastro: Date;
 
   @ApiProperty({ type: () => Usuario })
   @ManyToOne(() => Usuario, (usuario) => usuario.produtos, {

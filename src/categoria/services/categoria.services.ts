@@ -37,7 +37,7 @@ export class CategoriaService {
   async findByCategoria(nome: string): Promise<Categoria[]> {
     return await this.categoriaRepository.find({
       where: {
-        nome: ILike(`%$${nome}`),
+        nome: ILike(`%${nome}%`),
       },
       relations: {
         produto: true, 

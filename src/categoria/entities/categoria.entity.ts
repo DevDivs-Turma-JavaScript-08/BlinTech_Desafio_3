@@ -5,7 +5,7 @@ import { Produto } from '../../produto/entities/produto.entity';
 
 @Entity({ name: 'tb_categorias' })
 export class Categoria {
-  @ApiProperty()
+  @ApiProperty({ readOnly: true })
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,7 +24,7 @@ export class Categoria {
   @Column({ nullable: false })
   carencia: number;
 
-  @ApiProperty()
+  @ApiProperty({ readOnly: true })
   @OneToMany(() => Produto, (produto) => produto.categoria)
   produto: Produto[];
 }

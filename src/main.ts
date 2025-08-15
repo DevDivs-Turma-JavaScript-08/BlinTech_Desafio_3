@@ -24,12 +24,12 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
 
     const options = {
-      customSiteTitle: "BlinTech", 
+      customSiteTitle: 'BlinTech',
       customCss: theme.getBuffer(SwaggerThemeNameEnum.DARK_MONOKAI),
-      customfavIcon: "/src/assets/favicon-32x32.png",
+      customfavIcon: 'https://i.imgur.com/zIJTbdo.png',
       swaggerOptions: {
-        docExpansion: 'none'
-      }
+        docExpansion: 'none',
+      },
     };
 
     SwaggerModule.setup("/swagger", app, document, options);
