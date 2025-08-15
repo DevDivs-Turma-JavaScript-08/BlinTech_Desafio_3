@@ -5,19 +5,17 @@ import { Strategy } from "passport-local";
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  private _emailField: string;
-  private _passwordField: string;
-
   constructor(private readonly authService: AuthService) {
-    super();
-    this._emailField = "email";
-    this._passwordField = "senha"
+    super({
+      usernameField: 'email',
+      passwordField: 'senha',
+    });
   }
 
   async validate(email: string, senha: string): Promise<any> {
     const validaEmail = await this.authService.validateEmail(email, senha);
     if (!validaEmail) {
-      throw new UnauthorizedException("Usuário e/ou senha incorretos!");
+      throw new UnauthorizedException('Email e/ou senha incorretos!');
     }
     return validaEmail;
   }

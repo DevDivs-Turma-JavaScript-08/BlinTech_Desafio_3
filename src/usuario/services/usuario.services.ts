@@ -78,7 +78,7 @@ export class UsuarioService {
 
     if (buscaUser && buscaUser.id !== user.id)
       throw new HttpException(
-        'Usuário (e-mail) já cadastrado!',
+        'E-mail já cadastrado!',
         HttpStatus.BAD_REQUEST,
       );
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Produto } from '../../produto/entities/produto.entity';
 
@@ -11,29 +11,35 @@ export class Usuario {
 
   @IsNotEmpty()
   @Column({ length: 255, nullable: false })
-  @ApiProperty({ example: "Nome do Usuario" })
+  @ApiProperty({ example: 'Nome do Usuario' })
   nome: string;
 
   @IsEmail()
   @IsNotEmpty()
   @Column({ length: 255, nullable: false })
-  @ApiProperty({ example: "email@email.com.br" })
+  @ApiProperty({ example: 'email@email.com.br' })
   email: string;
 
   @MinLength(6)
   @IsNotEmpty()
   @Column({ length: 255, nullable: false })
-  @ApiProperty()
+  @ApiProperty({ example: 'Minimo de 6 caracteres'})
   senha: string;
 
   @IsNotEmpty()
-  @ApiProperty()
-  @Column({ length: 11, nullable: false })
-  cpf: string;
+  @MinLength(11)
+  @MaxLength(11)
+  @ApiProperty({ example: '12345678910'})
+  @Column({ nullable: false })
+  cpf: number;
 
-  @IsNotEmpty()
   @ApiProperty()
-  @Column({ type: 'enum', enum: ["segurador", "segurado"] ,nullable: false })
+  @Column({
+    type: 'enum',
+    enum: ['Segurador', 'Segurado'],
+    default: 'Segurado',
+  })
+  // @Column({ length: 255, nullable: true })
   tipoDeUsuario: string;
 
   @Column({ length: 5000 })

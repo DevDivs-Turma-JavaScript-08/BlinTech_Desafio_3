@@ -15,7 +15,7 @@ import { UsuarioService } from '../services/usuario.services';
 import { Usuario } from '../entities/usuario.entity';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
-@ApiTags("Usuario")
+@ApiTags('Usuario')
 @Controller('/usuarios')
 @ApiBearerAuth()
 export class UsuarioController {

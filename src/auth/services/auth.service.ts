@@ -16,7 +16,7 @@ export class AuthService {
     const buscaEmail = await this.userService.findByEmail(email);
 
     if (!buscaEmail)
-      throw new HttpException("Usuário não encontrado!", HttpStatus.NOT_FOUND);
+      throw new HttpException("Email não encontrado!", HttpStatus.NOT_FOUND);
 
     const matchPassword = await this.bcrypt.compararSenhas(
       password,
