@@ -8,6 +8,7 @@ import { DevService } from './data/services/dev.service';
 import { CategoriaModule } from './categoria/categoria.module';
 import { ProdutoModule } from './produto/produto.module';
 import { AuthModule } from './auth/auth.module';
+import { ProdService } from './data/services/prod.service';
 
 @Module({
   imports: [
@@ -17,8 +18,8 @@ import { AuthModule } from './auth/auth.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      // useClass: ProdService,
-      useClass: DevService,
+      useClass: ProdService,
+      // useClass: DevService,
     }),
     AuthModule,
     UsuarioModule,
