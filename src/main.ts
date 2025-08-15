@@ -26,7 +26,7 @@ async function bootstrap() {
     const options = {
       customSiteTitle: "BlinTech", 
       customCss: theme.getBuffer(SwaggerThemeNameEnum.DARK_MONOKAI),
-      customfavIcon: "/src/assets/Imagem_do_WhatsApp_de_2025-08-14_as_16.32.57_425d0342.jpg",
+      customfavIcon: "/src/assets/favicon-32x32.png",
       swaggerOptions: {
         docExpansion: 'none'
       }

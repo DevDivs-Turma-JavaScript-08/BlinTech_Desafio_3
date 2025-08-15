@@ -29,9 +29,9 @@ export class Usuario {
   @IsNotEmpty()
   @MinLength(11)
   @MaxLength(11)
-  @ApiProperty({ example: '12345678910'})
-  @Column({ nullable: false })
-  cpf: number;
+  @ApiProperty({ example: "12345678910"})
+  @Column({ length: 11, nullable: false, unique: true })
+  cpf: string;
 
   @ApiProperty()
   @Column({
