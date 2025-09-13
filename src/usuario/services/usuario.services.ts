@@ -18,16 +18,27 @@ export class UsuarioService {
         email: user,
       },
       relations: {
-         produtos: true,
-       }
+        produtos: true,
+      },
+    });
+  }
+
+  async findByCpf(user: string): Promise<Usuario | null> {
+    return await this.userRepo.findOne({
+      where: {
+        cpf: user,
+      },
+      relations: {
+        produtos: true,
+      },
     });
   }
 
   async findAll(): Promise<Usuario[]> {
     const userList = await this.userRepo.find({
-       relations: {
+      relations: {
         produtos: true,
-       },
+      },
     });
     if (userList.length === 0) {
       throw new HttpException(
@@ -53,11 +64,18 @@ export class UsuarioService {
   }
 
   async create(user: Usuario): Promise<Usuario> {
-    const buscaUser = await this.findByEmail(user.email);
+    const buscaUserEmail = await this.findByEmail(user.email);
+    const buscaUserCpf = await this.findByCpf(user.cpf);
 
-    if (buscaUser)
+    if (buscaUserEmail)
       throw new HttpException(
         'O email cadastrado já existe!',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (buscaUserCpf)
+      throw new HttpException(
+        'O CPF cadastrado já existe!',
         HttpStatus.BAD_REQUEST,
       );
 
@@ -74,15 +92,16 @@ export class UsuarioService {
         HttpStatus.NOT_FOUND,
       );
 
-    const buscaUser = await this.findByEmail(user.email);
+    const buscaUserEmail = await this.findByEmail(user.email);
+    const buscaUserCpf = await this.findByEmail(user.cpf);
 
-    if (buscaUser && buscaUser.id !== user.id)
-      throw new HttpException(
-        'E-mail já cadastrado!',
-        HttpStatus.BAD_REQUEST,
-      );
+    if (buscaUserEmail && buscaUserEmail.id !== user.id)
+      throw new HttpException('E-mail já cadastrado!', HttpStatus.BAD_REQUEST);
 
-      user.senha = await this.bcrypt.criptografarSenha(user.senha);
-      return await this.userRepo.save(user);
+    if (buscaUserCpf && buscaUserCpf.id !== user.id)
+      throw new HttpException('CPF já cadastrado!', HttpStatus.BAD_REQUEST);
+
+    user.senha = await this.bcrypt.criptografarSenha(user.senha);
+    return await this.userRepo.save(user);
   }
 }

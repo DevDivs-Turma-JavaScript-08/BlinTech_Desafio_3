@@ -37,12 +37,11 @@ export class Produto {
   @ApiProperty()
   cobertura: string;
 
-  @IsNotEmpty()
   @MinLength(14)
   @MaxLength(20)
-  @Column({ length: 20, nullable: false })
+  @Column({ length: 20})
   @ApiProperty({ example: 'WW-XXXXXX-YYYYYY-Z' })
-  imei: string;
+  imei?: string;
 
   @IsNotEmpty()
   @ApiProperty()
