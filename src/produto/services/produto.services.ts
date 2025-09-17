@@ -56,17 +56,17 @@ export class ProdutoService {
     }
 
     async createValorFinal(produto: Produto): Promise<Produto> {
-        let porcentagemBase = 1.15
+        let porcentagemBase = 2.15
 
         if(produto.cobertura == "premium") {
-          porcentagemBase = 1.3
+          porcentagemBase = 2.3
         } else if(produto.cobertura == "intermediario") {
-          porcentagemBase = 1.2
+          porcentagemBase = 2.2
         }
 
         produto.valorSeguro = produto.valorProduto*porcentagemBase
 
-        if(produto.tempoUso >= 3) produto.valorSeguro = produto.valorSeguro - (produto.valorSeguro*0.3)
+        if(produto.tempoUso >= 3) produto.valorSeguro = produto.valorSeguro * 0.7
 
         return await this.produtoRepository.save(produto);
     }
